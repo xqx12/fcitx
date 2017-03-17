@@ -121,7 +121,8 @@ int CreateSocket(const char *name)
 
 int UdAccept(int listenfd)
 {
-    for (int i =0;i<20;i++) {
+    int i=0;
+    for (i =0;i<20;i++) {
         int newsock = 0;
         struct sockaddr_un cliaddr;
         socklen_t len = sizeof(struct sockaddr_un);

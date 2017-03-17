@@ -5,6 +5,8 @@
 #include "pyconfig.h"
 #include "PYFA.h"
 
+/*#include "klee/klee.h"*/
+
 
 void PrintParsedPY(ParsePYStruct *parse, const char *expect)
 {
@@ -22,7 +24,7 @@ void PrintParsedPY(ParsePYStruct *parse, const char *expect)
     free(buf);
 }
 
-int main()
+int main(int argc, char* argv[])
 {
     FcitxPinyinConfig pyconfig;
     ParsePYStruct parse;
@@ -30,6 +32,14 @@ int main()
     memset(&parse, 0, sizeof(parse));
     InitPYTable(&pyconfig);
     InitPYSplitData(&pyconfig);
+    char symbuf[10] = {0};
+    /*klee_make_symbolic(symbuf, 10, "input");*/
+    /*symbuf[9] = 0;*/
+    /*memcpy(symbuf, "zuang", 5);*/
+    /*memcpy(symbuf, "jv", 2);*/
+    memcpy(symbuf+1, "zhui", 4);
+    ParsePY(&pyconfig, symbuf, &parse, PY_PARSE_INPUT_USER, false);
+#if 0
     ParsePY(&pyconfig, "wanan", &parse, PY_PARSE_INPUT_USER, false);
     PrintParsedPY(&parse, "wan an");
     ParsePY(&pyconfig, "dier", &parse, PY_PARSE_INPUT_USER, false);
@@ -46,5 +56,6 @@ int main()
     PrintParsedPY(&parse, "bing an");
     ParsePY(&pyconfig, "xiai", &parse, PY_PARSE_INPUT_USER, false);
     PrintParsedPY(&parse, "xi ai");
+#endif
     return 0;
 }

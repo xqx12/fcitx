@@ -477,6 +477,7 @@ boolean FcitxInstanceLoadAllIM(FcitxInstance* instance)
 
     while (curs) {
         FILE* fp = FcitxXDGGetFileWithPrefix("inputmethod", curs->name, "r", NULL);
+        /*FcitxLog(DEBUG, _("inputmethod: %s"), curs->name);*/
         FcitxConfigFile* cfile = NULL;
         if (fp) {
             cfile = FcitxConfigParseConfigFileFp(fp, GetIMConfigDesc());

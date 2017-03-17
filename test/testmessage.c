@@ -32,6 +32,7 @@ int main()
 
     char* result = FcitxUICandidateWordToCString(instance);
     assert (strcmp(result, "1.aA 2.bB 3.cC 4.dD 5.eE ") == 0);
+    printf("%s\n", result);
     free(result);
 
     FcitxCandidateWordSetPageSize(instance->input->candList, 10);
@@ -39,6 +40,7 @@ int main()
     result = FcitxUICandidateWordToCString(instance);
     assert (strcmp(result, "1.aA 2.bB 3.aA 4.bB 5.cC 6.dD "
                    "7.cC 8.dD 9.eE ") == 0);
+    printf("%s\n", result);
     free(result);
 
     FcitxCandidateWordFreeList(instance->input->candList);
