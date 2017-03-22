@@ -300,7 +300,14 @@ void* RunInstance(void* arg)
     /* fcitx is running in a standalone thread or not */
     if (instance->sem) {
         sem_post(&instance->notifySem);
-        sem_wait(&instance->startUpSem);
+        /*sem_wait(&instance->startUpSem);*/
+        while( 0!=sem_wait(&instance->notifySem) )
+        {
+            if( errno == EINTR)
+                continue;
+            else 
+                return ;
+        }
     } else {
         instance->initialized = true;
     }
