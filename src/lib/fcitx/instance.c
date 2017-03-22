@@ -186,6 +186,48 @@ create_error_exit_1:
 }
 
 FCITX_EXPORT_API
+FcitxInstance* FcitxInstanceCreatePauseSingleThread(sem_t *sem, int argc, char* argv[], int fd)
+{
+    if (!sem) {
+        return NULL;
+    }
+
+    FcitxInstance* instance = fcitx_utils_new(FcitxInstance);
+
+    if (!ProcessOption(instance, argc, argv))
+        goto create_error_exit_1;
+
+    instance->sem = sem;
+    instance->fd = fd;
+
+    if (sem_init(&instance->startUpSem, 0, 0) != 0) {
+        goto create_error_exit_1;
+    }
+
+    if (sem_init(&instance->notifySem, 0, 0) != 0) {
+        goto create_error_exit_2;
+    }
+
+    /*if (pthread_create(&instance->pid, NULL, RunInstance, instance) != 0) {*/
+        /*goto create_error_exit_3;*/
+    /*}*/
+    RunInstance(instance);
+
+    sem_wait(&instance->notifySem);
+
+    return instance;
+
+create_error_exit_3:
+    sem_destroy(&instance->notifySem);
+create_error_exit_2:
+    sem_destroy(&instance->startUpSem);
+create_error_exit_1:
+    free(instance);
+    return NULL;
+}
+
+
+FCITX_EXPORT_API
 void FcitxInstanceStart(FcitxInstance* instance)
 {
     if (!instance->loadingFatalError) {
@@ -300,14 +342,16 @@ void* RunInstance(void* arg)
     /* fcitx is running in a standalone thread or not */
     if (instance->sem) {
         sem_post(&instance->notifySem);
-        /*sem_wait(&instance->startUpSem);*/
+        sem_wait(&instance->startUpSem);
+        /*  
         while( 0!=sem_wait(&instance->notifySem) )
         {
             if( errno == EINTR)
                 continue;
             else 
-                return ;
+                return NULL;
         }
+        */
     } else {
         instance->initialized = true;
     }
