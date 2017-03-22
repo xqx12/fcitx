@@ -1,5 +1,7 @@
 *~
 build*/
+*build/
+@DOXYFILE_OUTPUT_DIR@/*
 .*
 !.git*
 .git/
