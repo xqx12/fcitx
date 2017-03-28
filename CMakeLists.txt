@@ -134,6 +134,7 @@ endif(ENABLE_X11)
 
 if (ENABLE_TEST)
     ENABLE_TESTING()
+    set(CMAKE_C_FLAGS "-g -O0 ${CMAKE_C_FLAGS}") 
 endif (ENABLE_TEST)
 
 set(_ENABLE_CAIRO 0)
