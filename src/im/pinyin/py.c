@@ -1130,8 +1130,8 @@ void PYCreateAuto(FcitxPinyinState* pystate)
             if (baseSelected) {
                 strcat(pystate->strPYAuto, baseSelected->strHZ);
                 strcat(pystate->strPYAutoMap, pPYFA->strMap);
-                strcat(pystate->strPYAuto, phraseSelected->strPhrase);
-                strcat(pystate->strPYAutoMap, phraseSelected->strMap);
+                strcat(pystate->strPYAuto, phraseSelected->strPhrase); // here maybe overflow, phraseSelected->strPhrase is char *, addbyxqx
+                strcat(pystate->strPYAutoMap, phraseSelected->strMap); //
             }
         }
 

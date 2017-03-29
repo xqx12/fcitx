@@ -68,9 +68,9 @@ FcitxDBusWatchNameNotifyFreeFunc(void *obj)
         notify->destroy(notify->data);
     }
 }
-
+// fcitx_dbus_ABI_VERSION=5; FcitxModule fcitx_dbus_module={DBusCreate,DBusSetFD,...};
 FCITX_DEFINE_PLUGIN(fcitx_dbus, module, FcitxModule) = {
-    DBusCreate,
+    DBusCreate, 
     DBusSetFD,
     DBusProcessEvent,
     DBusDestroy,
