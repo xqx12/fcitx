@@ -209,10 +209,10 @@ FcitxInstance* FcitxInstanceCreatePauseSingleThread(sem_t *sem, int argc, char* 
         goto create_error_exit_2;
     }
 
-    if (pthread_create(&instance->pid, NULL, RunInstanceEx, instance) != 0) {
-        goto create_error_exit_3;
-    }
-    /*RunInstance(instance);*/
+    /*if (pthread_create(&instance->pid, NULL, RunInstanceEx, instance) != 0) {*/
+        /*goto create_error_exit_3;*/
+    /*}*/
+    RunInstanceEx(instance);
 
     sem_wait(&instance->notifySem);
 
