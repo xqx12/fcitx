@@ -24,6 +24,17 @@ else()
   set(pinyin_noinstall NO_INSTALL)
 endif()
 
+if(ENABLE_STATIC)
+  add_library(fcitx-pinyin-static STATIC ${FCITX_PINYIN_SOURCES})
+  set_target_properties(fcitx-pinyin-static PROPERTIES
+    OUTPUT_NAME "fcitx-pinyin"
+    PREFIX "lib")
+
+  install(TARGETS fcitx-pinyin-static
+    LIBRARY DESTINATION "${libdir}"
+    ARCHIVE DESTINATION "${libdir}")
+endif()
+
 fcitx_add_addon_full(pinyin SCAN SCAN_PRIV DESC ${pinyin_noinstall}
   SOURCES ${FCITX_PINYIN_SOURCES}
   HEADERS pydef.h
